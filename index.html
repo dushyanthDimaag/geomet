@@ -43,6 +43,26 @@
       border-radius: 4px;
     }
 
+    /* Page separator for multi-page visual layout */
+    .page-break-line {
+      position: relative;
+      margin: 2.5rem -2.5rem;
+      border-top: 2px dashed #cbd5e1;
+      text-align: center;
+    }
+    .page-break-line::after {
+      content: 'PAGE BREAK / NEXT SECTION';
+      position: relative;
+      top: -10px;
+      background: #f1f5f9;
+      padding: 2px 12px;
+      font-size: 10px;
+      font-family: monospace;
+      color: #64748b;
+      border-radius: 9999px;
+      border: 1px solid #cbd5e1;
+    }
+
     /* Editable highlighted tokens in document */
     .doc-var {
       background-color: #fef08a; /* amber-200 */
@@ -54,7 +74,7 @@
       transition: all 0.2s ease;
       display: inline-block;
       line-height: 1.25;
-      font-weight: 500;
+      font-weight: inherit;
     }
 
     .doc-var:hover {
@@ -86,7 +106,7 @@
       background-color: #fde047 !important;
       outline: 2.5px solid #b91c1c !important;
       box-shadow: 0 0 0 6px rgba(185, 28, 28, 0.25) !important;
-      transform: scale(1.03);
+      transform: scale(1.02);
       z-index: 20;
     }
 
@@ -111,6 +131,14 @@
         background-color: transparent !important;
         border-bottom: none !important;
         padding: 0 !important;
+      }
+      .page-break-line {
+        page-break-after: always;
+        border: none;
+        margin: 0;
+      }
+      .page-break-line::after {
+        display: none;
       }
       .no-print {
         display: none !important;
@@ -253,406 +281,392 @@
       <div class="max-w-[850px] mx-auto">
 
         <!-- DOCUMENT SHELL (A4-like) -->
-        <article id="print-area" class="doc-page p-6 sm:p-10 md:p-12 text-slate-900 text-[13px] leading-relaxed font-serif relative">
+        <article id="print-area" class="doc-page p-6 sm:p-10 md:p-12 text-slate-900 text-[13px] leading-relaxed font-sans relative">
 
-          <!-- LETTERHEAD -->
-          <header class="border-b-2 border-geomet-maroon pb-4 mb-6">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div>
-                <h1 class="text-xl sm:text-2xl font-black text-geomet-maroon font-sans tracking-tight">GeoMET CONSULTANTS, LLC</h1>
-                <p class="text-[11px] uppercase tracking-wider text-slate-600 font-bold font-sans mt-0.5">
-                  Proposal for Subsurface Exploration and Geotechnical Engineering Services
-                </p>
-              </div>
-
-              <!-- Graphic Logo Simulation -->
-              <div class="flex items-center bg-slate-50 border border-slate-200 px-3 py-1.5 rounded self-start sm:self-auto shadow-sm">
-                <span class="text-geomet-maroon font-black text-2xl tracking-tighter font-sans">Ge</span>
-                <span class="w-5 h-5 rounded-full bg-blue-600 border border-green-500 mx-1 flex items-center justify-center text-[10px] text-white">🌍</span>
-                <span class="text-geomet-maroon font-black text-2xl tracking-tighter font-sans">MET</span>
-                <div class="ml-2 pl-2 border-l border-slate-300 text-geomet-maroon flex flex-col items-center">
-                  <span class="text-[10px] leading-none font-bold">▼</span>
-                  <span class="w-3.5 h-[2px] bg-geomet-maroon my-0.5"></span>
-                  <span class="text-[9px] leading-none font-mono">⫵</span>
-                </div>
+          <!-- PAGE 1: AUTHENTIC COVER PAGE -->
+          <div id="cover-page-section" class="min-h-[580px] sm:min-h-[640px] flex flex-col justify-between text-center py-6 px-2 sm:px-6">
+            <div class="space-y-4">
+              <h1 class="text-2xl sm:text-3xl font-extrabold text-[#7A1C1D] tracking-tight uppercase">
+                GeoMET CONSULTANTS, LLC
+              </h1>
+              <div class="space-y-1 text-sm sm:text-base font-bold text-slate-800 leading-snug">
+                <div>Proposal for Subsurface Exploration and</div>
+                <div>Geotechnical Engineering Services</div>
               </div>
             </div>
 
-            <!-- Top Doc Meta Bar -->
-            <div class="mt-4 pt-2.5 border-t border-slate-200 flex flex-wrap justify-between items-center text-xs font-sans text-slate-700">
+            <div class="my-10 space-y-3 font-bold text-sm sm:text-base text-slate-900">
               <div>
-                <strong>GeoMET Proposal No.:</strong>
-                <span class="doc-var" data-ref="proposalNo" onclick="jumpToField('proposalNo')">P26011165</span>
+                <span class="doc-var" data-ref="projectName" onclick="jumpToField('projectName')">Baxter Well Apartments – Phase I & Phase II</span>
+              </div>
+              <div class="text-slate-800">
+                <span class="doc-var" data-ref="projectLocation" onclick="jumpToField('projectLocation')">S. of Baxter Well Road</span>
+              </div>
+              <div class="text-slate-800">
+                <span class="doc-var" data-ref="projectCityState" onclick="jumpToField('projectCityState')">McKinney, Texas</span>
+              </div>
+            </div>
+
+            <div class="my-6 space-y-4 font-bold text-sm text-slate-900">
+              <div>
+                <span>GeoMET Proposal No.: </span>
+                <span class="doc-var font-mono" data-ref="proposalNo" onclick="jumpToField('proposalNo')">P26011165</span>
               </div>
               <div>
-                <strong>Date:</strong>
                 <span class="doc-var" data-ref="proposalDate" onclick="jumpToField('proposalDate')">November 5, 2026</span>
               </div>
             </div>
-          </header>
 
-          <!-- RECIPIENT & TITLE BLOCK -->
-          <div class="mb-6 font-sans text-xs bg-slate-50/70 p-3.5 rounded border border-slate-200">
-            <div class="text-slate-500 text-[11px] mb-2">
-              <span class="doc-var" data-ref="proposalDate" onclick="jumpToField('proposalDate')">November 5, 2026</span>
-            </div>
-            <div class="font-semibold text-slate-800">
-              <span class="doc-var" data-ref="recipientName" onclick="jumpToField('recipientName')">Ms. Caitland Rodgers</span>
-            </div>
-            <div class="text-slate-600">
-              <span class="doc-var" data-ref="recipientAddress" onclick="jumpToField('recipientAddress')">3400 N. Central Expressway Suite #110-264</span>
-            </div>
-            <div class="text-slate-600">
-              <span class="doc-var" data-ref="recipientCityStateZip" onclick="jumpToField('recipientCityStateZip')">Richardson, Texas 75080</span>
-            </div>
-            <div class="mt-3 pt-2.5 border-t border-slate-200">
-              <span class="font-bold text-slate-700">Reference:</span>
-              <span class="italic text-slate-800">Proposal for Subsurface Exploration and Geotechnical Engineering Services</span><br>
-              <strong class="text-geomet-maroon text-sm font-sans">
-                <span class="doc-var" data-ref="projectName" onclick="jumpToField('projectName')">Baxter Well Apartments – Phase I & Phase II</span>
-              </strong><br>
-              <span class="text-slate-600">
-                <span class="doc-var" data-ref="projectLocation" onclick="jumpToField('projectLocation')">S. of Baxter Well Road</span>,
-                <span class="doc-var" data-ref="projectCityState" onclick="jumpToField('projectCityState')">McKinney, Texas</span>
-              </span><br>
-              <span class="text-slate-600">GeoMET Proposal No.: <span class="doc-var font-mono font-bold" data-ref="proposalNo" onclick="jumpToField('proposalNo')">P26011165</span></span>
-            </div>
-          </div>
-
-          <!-- SALUTATION & OPENING -->
-          <div class="mb-5 space-y-3">
-            <p>Dear <span class="doc-var" data-ref="recipientSalutation" onclick="jumpToField('recipientSalutation')">Ms. Rodgers</span>,</p>
-            <p class="text-justify">
-              As requested, GeoMET Consultants LLC (GeoMET) is pleased to provide the following lump sum cost estimate proposal for subsurface exploration and geotechnical engineering services for the above referenced project. Our understanding of the project is based on our review of conceptual site plans received along with your request for proposal (RFP) as per the email conversation dated <span class="doc-var" data-ref="rfpDate" onclick="jumpToField('rfpDate')">November 4, 2026</span>. This proposal outlines our understanding of the project, the proposed scope of services, activity schedule, fees, and authorization requirements.
-            </p>
-          </div>
-
-          <!-- PROJECT INFORMATION SECTION -->
-          <section class="mb-6">
-            <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-geomet-maroon border-b border-slate-300 pb-1 mb-2">
-              Project Information
-            </h2>
-            <p class="text-xs mb-3 text-slate-700">
-              In preparing this proposal, we have reviewed the RFP documents. We have also reviewed the available geologic and geotechnical information in our files in the vicinity of the site.
-            </p>
-
-            <div class="overflow-x-auto my-3">
-              <table class="w-full text-left text-xs border border-slate-300 font-sans">
-                <thead>
-                  <tr class="bg-slate-100 text-slate-700 border-b border-slate-300">
-                    <th class="p-2 border-r border-slate-300 font-semibold w-1/4">Aspect</th>
-                    <th class="p-2 font-semibold">Details</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200">
-                  <tr>
-                    <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Location</td>
-                    <td class="p-2"><span class="doc-var" data-ref="tableLocation" onclick="jumpToField('tableLocation')">South of Baxter Well Road, McKinney, Texas</span></td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Existing Improvements</td>
-                    <td class="p-2"><span class="doc-var" data-ref="tableImprovements" onclick="jumpToField('tableImprovements')">The site appears undeveloped vacant parcel of land with minimal vegetation.</span></td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Current Ground Cover</td>
-                    <td class="p-2"><span class="doc-var" data-ref="tableGroundCover" onclick="jumpToField('tableGroundCover')">Grass</span></td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Existing Topography</td>
-                    <td class="p-2">
-                      The site gradually slopes from north to south having a maximum elevation of approximately
-                      <span class="doc-var" data-ref="maxElevation" onclick="jumpToField('maxElevation')">705 feet</span>
-                      and having a minimum elevation of approximately
-                      <span class="doc-var" data-ref="minElevation" onclick="jumpToField('minElevation')">690 feet</span>, respectively.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Proposed Construction</td>
-                    <td class="p-2">
-                      Planned development consists of 
-                      <span class="doc-var" data-ref="proposedConstruction" onclick="jumpToField('proposedConstruction')">3-story 15-multifamily wooden framed residential structures along with club house, pool, amenity & fitness area, parking and driveways</span> in an area of approximately 
-                      <span class="doc-var font-semibold" data-ref="siteAcreage" onclick="jumpToField('siteAcreage')">17.3 acres</span>.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Maximum Load (assumed)</td>
-                    <td class="p-2">
-                      Maximum wall loads of <span class="doc-var" data-ref="maxWallLoad" onclick="jumpToField('maxWallLoad')">2 to 3 kips per linear foot</span> for proposed building structures. Maximum column loads of approximately <span class="doc-var" data-ref="maxColumnLoad" onclick="jumpToField('maxColumnLoad')">50 kips</span> for the proposed building structures.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Grading Information</td>
-                    <td class="p-2"><span class="doc-var" data-ref="gradingInfo" onclick="jumpToField('gradingInfo')">Not Available (Assumed within 2 feet of existing)</span></td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Access</td>
-                    <td class="p-2"><span class="doc-var" data-ref="accessDesc" onclick="jumpToField('accessDesc')">Readily accessible from Baxter Well Road which is located north of the property</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- PROPOSED SCOPE OF WORK -->
-          <section class="mb-6 space-y-3">
-            <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-geomet-maroon border-b border-slate-300 pb-1">
-              Proposed Scope of Work
-            </h2>
-            <p class="text-justify">
-              Our integrated services will include drilling borings by drilling crews based on instructions provided by GeoMET. Our services will also include laboratory testing of representative soil samples, and engineering analyses presented in a site-specific engineering report.
-            </p>
-
-            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-xs font-sans space-y-1 text-slate-700">
-              <div class="font-bold text-slate-800 mb-1">Utility Clearance Guidelines:</div>
-              <ul class="list-disc list-inside space-y-1">
-                <li>State 811 will be notified to mark public utilities, but markings typically stop at distribution points.</li>
-                <li>We coordinate work around utilities marked by 811 and identified by owner/client.</li>
-                <li>We cannot be held responsible for unmarked private utilities. Private locating services are recommended for developed parcels.</li>
-              </ul>
-            </div>
-          </section>
-
-          <!-- FIELD EXPLORATION SECTION & TABLE -->
-          <section class="mb-6">
-            <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-geomet-maroon border-b border-slate-300 pb-1 mb-2">
-              Field Exploration
-            </h2>
-            <p class="text-xs mb-3 text-justify">
-              Perform soil test borings (ASTM 1586/1587 Standard and/or Continuous Sampling) at the building pad area, club house, pool area and pavement. A total of 
-              <span class="doc-var font-bold" data-ref="boringCountWords" onclick="jumpToField('boringCountWords')">twenty (20)</span> borings are planned for the project.
-            </p>
-
-            <div class="overflow-x-auto my-3">
-              <table class="w-full text-left text-xs border border-slate-300 font-sans">
-                <thead>
-                  <tr class="bg-slate-100 text-slate-700 border-b border-slate-300">
-                    <th class="p-2 border-r border-slate-300 font-semibold">Locations</th>
-                    <th class="p-2 border-r border-slate-300 font-semibold">Boring Nos.</th>
-                    <th class="p-2 border-r border-slate-300 font-semibold text-center">No. of Borings</th>
-                    <th class="p-2 font-semibold text-center">Depth of Borings, ft</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="border-b border-slate-200">
-                    <td class="p-2 border-r border-slate-300"><span class="doc-var" data-ref="boringLocationText" onclick="jumpToField('boringLocationText')">Building Pad Club House, Pool & Amenity Area</span></td>
-                    <td class="p-2 border-r border-slate-300 font-mono"><span class="doc-var" data-ref="boringNumbers" onclick="jumpToField('boringNumbers')">BH-1 to BH-20</span></td>
-                    <td class="p-2 border-r border-slate-300 text-center font-bold font-mono"><span class="doc-var" data-ref="boringCount" onclick="jumpToField('boringCount')">20</span></td>
-                    <td class="p-2 text-center font-bold font-mono"><span class="doc-var" data-ref="boringDepth" onclick="jumpToField('boringDepth')">20</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- SITE PLAN PREVIEW BANNER -->
-            <div class="my-4 border border-slate-300 bg-slate-50 rounded p-3 text-center">
-              <div class="flex items-center justify-between text-xs font-sans text-slate-500 mb-2 px-1">
-                <span class="font-semibold"><i class="fa-solid fa-map-location-dot text-geomet-maroon mr-1"></i> Exploration Boring Location Plan</span>
-                <span class="font-mono text-[10px]" id="plan-acreage-badge">17.3 ACRES TOTAL</span>
+            <!-- Logo Graphic -->
+            <div class="mt-8 flex justify-center items-center">
+              <div class="inline-flex items-center justify-center p-3 bg-white border border-slate-200 rounded shadow-sm">
+                <svg width="220" height="60" viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
+                  <!-- GeoMET text -->
+                  <text x="10" y="44" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="#7A1C1D">Ge</text>
+                  <!-- Globe O -->
+                  <circle cx="95" cy="32" r="17" fill="#1D4ED8" />
+                  <path d="M86 24 Q95 20 98 28 Q103 36 94 42 Q86 38 86 24 Z" fill="#22C55E" />
+                  <path d="M98 22 Q108 26 106 34 Q102 38 98 22 Z" fill="#22C55E" />
+                  <text x="114" y="44" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="#7A1C1D">MET</text>
+                  <!-- Drill rig icon -->
+                  <polygon points="190,16 198,16 194,22" fill="#7A1C1D" />
+                  <rect x="180" y="24" width="34" height="6" fill="#7A1C1D" rx="1" />
+                  <line x1="194" y1="30" x2="194" y2="54" stroke="#7A1C1D" stroke-width="3" />
+                  <path d="M190 34 L198 38 M190 41 L198 45 M190 48 L198 52" stroke="#7A1C1D" stroke-width="2" stroke-linecap="round" />
+                  <line x1="202" y1="32" x2="210" y2="32" stroke="#7A1C1D" stroke-width="1.5" />
+                  <line x1="204" y1="35" x2="208" y2="35" stroke="#7A1C1D" stroke-width="1.5" />
+                </svg>
               </div>
-              
-              <!-- Clean Mock Layout of Site Plan -->
-              <div class="relative bg-white border border-slate-200 rounded h-48 sm:h-56 overflow-hidden flex items-center justify-center">
-                <!-- Grid background -->
-                <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(#7A1C1D 1px, transparent 1px); background-size: 16px 16px;"></div>
-                
-                <!-- Schematic Buildings -->
-                <div class="relative z-10 w-11/12 h-5/6 border-2 border-dashed border-slate-300 rounded flex flex-col justify-between p-2">
-                  <div class="flex justify-between items-center text-[10px] text-slate-400 font-mono">
-                    <span>NORTH: BAXTER WELL RD</span>
-                    <span>PHASE I & PHASE II</span>
-                  </div>
-                  
-                  <div class="grid grid-cols-4 gap-2 text-center my-auto">
-                    <div class="bg-red-50 border border-red-200 rounded p-1 text-[10px]">
-                      <div class="font-bold text-red-900">Phase I</div>
-                      <span class="inline-block w-2.5 h-2.5 rounded-full bg-red-600 animate-ping"></span>
-                    </div>
-                    <div class="bg-slate-100 border border-slate-200 rounded p-1 text-[10px]">
-                      <div class="font-bold text-slate-700">Club House</div>
-                      <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
-                    </div>
-                    <div class="bg-slate-100 border border-slate-200 rounded p-1 text-[10px]">
-                      <div class="font-bold text-slate-700">Pool / Amenity</div>
-                      <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
-                    </div>
-                    <div class="bg-red-50 border border-red-200 rounded p-1 text-[10px]">
-                      <div class="font-bold text-red-900">Phase II</div>
-                      <span class="inline-block w-2.5 h-2.5 rounded-full bg-red-600"></span>
-                    </div>
-                  </div>
+            </div>
+          </div>
 
-                  <div class="flex justify-between items-center text-[9px] text-slate-500">
-                    <span>Planned Borings: <strong class="font-mono text-geomet-maroon" id="graphic-boring-val">20 Borings (20ft)</strong></span>
-                    <span>GeoMET Subsurface Exploration</span>
-                  </div>
+          <!-- VISUAL BREAK BETWEEN COVER AND LETTER -->
+          <div class="page-break-line"></div>
+
+          <!-- PAGE 2: PROPOSAL LETTER -->
+          <div class="pt-2">
+            <!-- RECIPIENT & TITLE BLOCK -->
+            <div class="mb-6 text-xs text-slate-800 space-y-1">
+              <div class="text-right text-slate-600 mb-4 font-medium">
+                <span class="doc-var" data-ref="proposalDate" onclick="jumpToField('proposalDate')">November 5, 2026</span>
+              </div>
+              <div class="font-bold text-slate-900">
+                <span class="doc-var" data-ref="recipientName" onclick="jumpToField('recipientName')">Ms. Caitland Rodgers</span>
+              </div>
+              <div class="text-slate-600">
+                <span class="doc-var" data-ref="recipientAddress" onclick="jumpToField('recipientAddress')">3400 N. Central Expressway Suite #110-264</span>
+              </div>
+              <div class="text-slate-600">
+                <span class="doc-var" data-ref="recipientCityStateZip" onclick="jumpToField('recipientCityStateZip')">Richardson, Texas 75080</span>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-200">
+                <div class="font-bold text-slate-800">
+                  Reference: Proposal for Subsurface Exploration and Geotechnical Engineering Services
+                </div>
+                <div class="font-bold text-slate-900 text-sm mt-0.5">
+                  <span class="doc-var" data-ref="projectName" onclick="jumpToField('projectName')">Baxter Well Apartments – Phase I & Phase II</span>
+                </div>
+                <div class="text-slate-700">
+                  <span class="doc-var" data-ref="projectLocation" onclick="jumpToField('projectLocation')">S. of Baxter Well Road</span>,
+                  <span class="doc-var" data-ref="projectCityState" onclick="jumpToField('projectCityState')">McKinney, Texas</span>
+                </div>
+                <div class="text-slate-700 font-medium">
+                  GeoMET Proposal No.: <span class="doc-var font-mono font-bold" data-ref="proposalNo" onclick="jumpToField('proposalNo')">P26011165</span>
                 </div>
               </div>
             </div>
-          </section>
 
-          <!-- LABORATORY TESTING -->
-          <section class="mb-6">
-            <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-geomet-maroon border-b border-slate-300 pb-1 mb-2">
-              Laboratory Testing
-            </h2>
-            <p class="text-xs mb-3 text-justify">
-              Upon completion of field exploration operations, samples will be returned to our geotechnical laboratory for visual classification and engineering testing:
-            </p>
-
-            <div class="overflow-x-auto my-3">
-              <table class="w-full text-left text-xs border border-slate-300 font-sans">
-                <thead>
-                  <tr class="bg-slate-100 text-slate-700 border-b border-slate-300">
-                    <th class="p-2 border-r border-slate-300 font-semibold">Laboratory Test</th>
-                    <th class="p-2 font-semibold text-center w-28">Quantity</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200">
-                  <tr>
-                    <td class="p-2 border-r border-slate-300">Natural Moisture Content</td>
-                    <td class="p-2 text-center font-mono font-bold"><span class="doc-var" data-ref="testMoisture" onclick="jumpToField('testMoisture')">42</span></td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 border-r border-slate-300">Atterberg Limits</td>
-                    <td class="p-2 text-center font-mono font-bold"><span class="doc-var" data-ref="testAtterberg" onclick="jumpToField('testAtterberg')">20</span></td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 border-r border-slate-300">Sieve Analyses</td>
-                    <td class="p-2 text-center font-mono font-bold"><span class="doc-var" data-ref="testSieve" onclick="jumpToField('testSieve')">20</span></td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 border-r border-slate-300">Swell Tests</td>
-                    <td class="p-2 text-center font-mono font-bold"><span class="doc-var" data-ref="testSwell" onclick="jumpToField('testSwell')">8</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- COMPENSATION -->
-          <section class="mb-6">
-            <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-geomet-maroon border-b border-slate-300 pb-1 mb-2">
-              Compensation
-            </h2>
-            <p class="text-justify text-xs">
-              GeoMET will provide the services outlined in this proposal for a lump sum fee of 
-              <strong class="text-sm font-sans text-geomet-maroon">
-                <span class="doc-var font-bold font-mono" data-ref="feeTotal" onclick="jumpToField('feeTotal')">$19,900/-</span>
-              </strong>.
-            </p>
-            <p class="text-[12px] text-slate-600 mt-1">
-              Our fee assumes that the site is accessible based upon assumptions detailed in this proposal.
-            </p>
-          </section>
-
-          <!-- SCHEDULE -->
-          <section class="mb-6">
-            <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-geomet-maroon border-b border-slate-300 pb-1 mb-2">
-              Schedule
-            </h2>
-            <div class="overflow-x-auto my-3">
-              <table class="w-full text-left text-xs border border-slate-300 font-sans">
-                <thead>
-                  <tr class="bg-slate-100 text-slate-700 border-b border-slate-300">
-                    <th class="p-2 border-r border-slate-300 font-semibold">Task / Activity</th>
-                    <th class="p-2 border-r border-slate-300 font-semibold">Estimated Duration</th>
-                    <th class="p-2 font-semibold">Comments</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200">
-                  <tr>
-                    <td class="p-2 border-r border-slate-300 font-medium">Drilling operations</td>
-                    <td class="p-2 border-r border-slate-300 font-mono"><span class="doc-var" data-ref="schedDrill" onclick="jumpToField('schedDrill')">~2 week</span></td>
-                    <td class="p-2 text-slate-600">Weather dependent</td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 border-r border-slate-300 font-medium">Laboratory testing</td>
-                    <td class="p-2 border-r border-slate-300 font-mono"><span class="doc-var" data-ref="schedLab" onclick="jumpToField('schedLab')">~1 week</span></td>
-                    <td class="p-2 text-slate-600">Begins after drilling</td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 border-r border-slate-300 font-medium">Engineering Analyses</td>
-                    <td class="p-2 border-r border-slate-300 font-mono"><span class="doc-var" data-ref="schedAnalysis" onclick="jumpToField('schedAnalysis')">~1 week</span></td>
-                    <td class="p-2 text-slate-600">After completion of lab tests</td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 border-r border-slate-300 font-medium">Verbal comments on findings</td>
-                    <td class="p-2 border-r border-slate-300 font-mono">Within 1 week after borings</td>
-                    <td class="p-2 text-slate-600">Upon request</td>
-                  </tr>
-                  <tr class="bg-slate-50 font-semibold">
-                    <td class="p-2 border-r border-slate-300 text-geomet-maroon">Total Duration</td>
-                    <td class="p-2 border-r border-slate-300 font-mono text-geomet-maroon"><span class="doc-var" data-ref="schedTotal" onclick="jumpToField('schedTotal')">~4-5 weeks</span></td>
-                    <td class="p-2 text-slate-700">After receiving Notice to proceed</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- SIGNATURE BLOCK -->
-          <div class="mb-8 pt-4 border-t border-slate-200 font-sans">
-            <p class="text-xs mb-3">Respectfully submitted,</p>
-            <div class="mb-2 italic text-geomet-maroon font-serif text-lg tracking-wide">
-              <span class="doc-var font-serif italic text-base" data-ref="signatureName" onclick="jumpToField('signatureName')">Siddharth Neekhra</span>
-            </div>
-            <div class="text-xs font-bold text-slate-900">GeoMET Consultants, LLC</div>
-            <div class="text-xs text-slate-700">
-              <span class="doc-var" data-ref="engineerName" onclick="jumpToField('engineerName')">Siddharth Neekhra, P.E.</span>
-            </div>
-            <div class="text-xs text-slate-600">
-              <span class="doc-var" data-ref="engineerTitle" onclick="jumpToField('engineerTitle')">Principal Engineer</span>
-            </div>
-          </div>
-
-          <!-- PROPOSAL ACCEPTANCE PAGE (PAGE 2) -->
-          <div class="pt-6 border-t-2 border-slate-300 mt-8 font-sans">
-            <div class="bg-slate-100 p-2 text-center font-bold text-xs uppercase tracking-wide text-geomet-maroon mb-3 rounded">
-              Proposal Acceptance and Authorization
-            </div>
-            <p class="text-[11px] text-slate-600 mb-3 text-justify">
-              Please complete this page and return one signed copy of this proposal to GeoMET to confirm your acceptance and authorize commencement of work on the above-referenced project.
-            </p>
-
-            <table class="w-full text-xs border border-slate-300 mb-4">
-              <tbody>
-                <tr class="border-b border-slate-200">
-                  <td class="p-2 bg-slate-50 font-semibold w-1/3 border-r border-slate-300">Proposal No.:</td>
-                  <td class="p-2 font-mono font-bold"><span class="doc-var" data-ref="proposalNo" onclick="jumpToField('proposalNo')">P26011165</span></td>
-                </tr>
-                <tr class="border-b border-slate-200">
-                  <td class="p-2 bg-slate-50 font-semibold border-r border-slate-300">Scope of Work:</td>
-                  <td class="p-2">Subsurface Exploration and Geotechnical Engineering Services</td>
-                </tr>
-                <tr class="border-b border-slate-200">
-                  <td class="p-2 bg-slate-50 font-semibold border-r border-slate-300">Project:</td>
-                  <td class="p-2 font-semibold"><span class="doc-var" data-ref="projectName" onclick="jumpToField('projectName')">Baxter Well Apartments – Phase I & Phase II</span></td>
-                </tr>
-                <tr class="border-b border-slate-200">
-                  <td class="p-2 bg-slate-50 font-semibold border-r border-slate-300">Location:</td>
-                  <td class="p-2"><span class="doc-var" data-ref="projectLocation" onclick="jumpToField('projectLocation')">S. of Baxter Well Road</span>, <span class="doc-var" data-ref="projectCityState" onclick="jumpToField('projectCityState')">McKinney, Texas</span></td>
-                </tr>
-                <tr>
-                  <td class="p-2 bg-slate-50 font-semibold border-r border-slate-300">Base Services:</td>
-                  <td class="p-2 font-mono font-bold text-geomet-maroon"><span class="doc-var" data-ref="feeTotal" onclick="jumpToField('feeTotal')">$19,900/-</span></td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div class="grid grid-cols-2 gap-4 text-xs pt-2">
-              <div class="border-b border-slate-400 pb-1 text-slate-500">Client Signature: _________________________</div>
-              <div class="border-b border-slate-400 pb-1 text-slate-500">Title: ____________________________</div>
-              <div class="border-b border-slate-400 pb-1 text-slate-500">Printed Name: ___________________________</div>
-              <div class="border-b border-slate-400 pb-1 text-slate-500">Date: ____________________________</div>
+            <!-- SALUTATION & OPENING -->
+            <div class="mb-5 space-y-3 font-serif">
+              <p>Dear <span class="doc-var font-sans" data-ref="recipientSalutation" onclick="jumpToField('recipientSalutation')">Ms. Rodgers</span>,</p>
+              <p class="text-justify">
+                As requested, GeoMET Consultants LLC (GeoMET) is pleased to provide the following lump sum cost estimate proposal for subsurface exploration and geotechnical engineering services for the above referenced project. Our understanding of the project is based on our review of conceptual site plans received along with your request for proposal (RFP) as per the email conversation dated <span class="doc-var font-sans" data-ref="rfpDate" onclick="jumpToField('rfpDate')">November 4, 2026</span>. This proposal outlines our understanding of the project, the proposed scope of services, activity schedule, fees, and authorization requirements.
+              </p>
             </div>
 
-            <div class="mt-4 pt-3 border-t border-slate-200 text-xs">
-              <div class="font-bold text-slate-800 mb-1">Invoicing Details:</div>
-              <div class="text-[11px] text-slate-500 space-y-1">
-                <div>Invoicing Address: __________________________________________________</div>
-                <div>Email Address and Telephone No.: ___________________________________</div>
+            <!-- PROJECT INFORMATION SECTION -->
+            <section class="mb-6">
+              <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-[#7A1C1D] border-b border-slate-300 pb-1 mb-2">
+                Project Information
+              </h2>
+              <p class="text-xs mb-3 text-slate-700 font-serif">
+                In preparing this proposal, we have reviewed the RFP documents. We have also reviewed the available geologic and geotechnical information in our files in the vicinity of the site.
+              </p>
+
+              <div class="overflow-x-auto my-3">
+                <table class="w-full text-left text-xs border border-slate-300 font-sans">
+                  <thead>
+                    <tr class="bg-slate-100 text-slate-700 border-b border-slate-300">
+                      <th class="p-2 border-r border-slate-300 font-semibold w-1/4">Aspect</th>
+                      <th class="p-2 font-semibold">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200">
+                    <tr>
+                      <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Location</td>
+                      <td class="p-2"><span class="doc-var" data-ref="tableLocation" onclick="jumpToField('tableLocation')">South of Baxter Well Road, McKinney, Texas</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Existing Improvements</td>
+                      <td class="p-2"><span class="doc-var" data-ref="tableImprovements" onclick="jumpToField('tableImprovements')">The site appears undeveloped vacant parcel of land with minimal vegetation.</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Current Ground Cover</td>
+                      <td class="p-2"><span class="doc-var" data-ref="tableGroundCover" onclick="jumpToField('tableGroundCover')">Grass</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Existing Topography</td>
+                      <td class="p-2">
+                        The site gradually slopes from north to south having a maximum elevation of approximately
+                        <span class="doc-var" data-ref="maxElevation" onclick="jumpToField('maxElevation')">705 feet</span>
+                        and having a minimum elevation of approximately
+                        <span class="doc-var" data-ref="minElevation" onclick="jumpToField('minElevation')">690 feet</span>, respectively.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Proposed Construction</td>
+                      <td class="p-2">
+                        Planned development consists of 
+                        <span class="doc-var" data-ref="proposedConstruction" onclick="jumpToField('proposedConstruction')">3-story 15-multifamily wooden framed residential structures along with club house, pool, amenity & fitness area, parking and driveways</span> in an area of approximately 
+                        <span class="doc-var font-semibold" data-ref="siteAcreage" onclick="jumpToField('siteAcreage')">17.3 acres</span>.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Maximum Load (assumed)</td>
+                      <td class="p-2">
+                        Maximum wall loads of <span class="doc-var" data-ref="maxWallLoad" onclick="jumpToField('maxWallLoad')">2 to 3 kips per linear foot</span> for proposed building structures. Maximum column loads of approximately <span class="doc-var" data-ref="maxColumnLoad" onclick="jumpToField('maxColumnLoad')">50 kips</span> for the proposed building structures.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Grading Information</td>
+                      <td class="p-2"><span class="doc-var" data-ref="gradingInfo" onclick="jumpToField('gradingInfo')">Not Available (Assumed within 2 feet of existing)</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 bg-slate-50 border-r border-slate-300 font-medium text-slate-700">Access</td>
+                      <td class="p-2"><span class="doc-var" data-ref="accessDesc" onclick="jumpToField('accessDesc')">Readily accessible from Baxter Well Road which is located north of the property</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- PROPOSED SCOPE OF WORK -->
+            <section class="mb-6 space-y-3 font-serif">
+              <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-[#7A1C1D] border-b border-slate-300 pb-1">
+                Proposed Scope of Work
+              </h2>
+              <p class="text-justify">
+                Our integrated services will include drilling borings by drilling crews based on instructions provided by GeoMET. Our services will also include laboratory testing of representative soil samples, and engineering analyses presented in a site-specific engineering report.
+              </p>
+
+              <div class="bg-slate-50 p-3 rounded border border-slate-200 text-xs font-sans space-y-1 text-slate-700">
+                <div class="font-bold text-slate-800 mb-1">Utility Clearance Guidelines:</div>
+                <ul class="list-disc list-inside space-y-1">
+                  <li>State 811 will be notified to mark public utilities, but markings typically stop at distribution points.</li>
+                  <li>We coordinate work around utilities marked by 811 and identified by owner/client.</li>
+                  <li>We cannot be held responsible for unmarked private utilities. Private locating services are recommended for developed parcels.</li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- FIELD EXPLORATION SECTION & TABLE -->
+            <section class="mb-6">
+              <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-[#7A1C1D] border-b border-slate-300 pb-1 mb-2">
+                Field Exploration
+              </h2>
+              <p class="text-xs mb-3 text-justify font-serif">
+                Perform soil test borings (ASTM 1586/1587 Standard and/or Continuous Sampling) at the building pad area, club house, pool area and pavement. A total of 
+                <span class="doc-var font-bold font-sans" data-ref="boringCountWords" onclick="jumpToField('boringCountWords')">twenty (20)</span> borings are planned for the project.
+              </p>
+
+              <div class="overflow-x-auto my-3">
+                <table class="w-full text-left text-xs border border-slate-300 font-sans">
+                  <thead>
+                    <tr class="bg-slate-100 text-slate-700 border-b border-slate-300">
+                      <th class="p-2 border-r border-slate-300 font-semibold">Locations</th>
+                      <th class="p-2 border-r border-slate-300 font-semibold">Boring Nos.</th>
+                      <th class="p-2 border-r border-slate-300 font-semibold text-center">No. of Borings</th>
+                      <th class="p-2 font-semibold text-center">Depth of Borings, ft</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-slate-200">
+                      <td class="p-2 border-r border-slate-300"><span class="doc-var" data-ref="boringLocationText" onclick="jumpToField('boringLocationText')">Building Pad Club House, Pool & Amenity Area</span></td>
+                      <td class="p-2 border-r border-slate-300 font-mono"><span class="doc-var" data-ref="boringNumbers" onclick="jumpToField('boringNumbers')">BH-1 to BH-20</span></td>
+                      <td class="p-2 border-r border-slate-300 text-center font-bold font-mono"><span class="doc-var" data-ref="boringCount" onclick="jumpToField('boringCount')">20</span></td>
+                      <td class="p-2 text-center font-bold font-mono"><span class="doc-var" data-ref="boringDepth" onclick="jumpToField('boringDepth')">20</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- LABORATORY TESTING -->
+            <section class="mb-6">
+              <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-[#7A1C1D] border-b border-slate-300 pb-1 mb-2">
+                Laboratory Testing
+              </h2>
+              <p class="text-xs mb-3 text-justify font-serif">
+                Upon completion of field exploration operations, samples will be returned to our geotechnical laboratory for visual classification and engineering testing:
+              </p>
+
+              <div class="overflow-x-auto my-3">
+                <table class="w-full text-left text-xs border border-slate-300 font-sans">
+                  <thead>
+                    <tr class="bg-slate-100 text-slate-700 border-b border-slate-300">
+                      <th class="p-2 border-r border-slate-300 font-semibold">Laboratory Test</th>
+                      <th class="p-2 font-semibold text-center w-28">Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200">
+                    <tr>
+                      <td class="p-2 border-r border-slate-300">Natural Moisture Content</td>
+                      <td class="p-2 text-center font-mono font-bold"><span class="doc-var" data-ref="testMoisture" onclick="jumpToField('testMoisture')">42</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 border-r border-slate-300">Atterberg Limits</td>
+                      <td class="p-2 text-center font-mono font-bold"><span class="doc-var" data-ref="testAtterberg" onclick="jumpToField('testAtterberg')">20</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 border-r border-slate-300">Sieve Analyses</td>
+                      <td class="p-2 text-center font-mono font-bold"><span class="doc-var" data-ref="testSieve" onclick="jumpToField('testSieve')">20</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 border-r border-slate-300">Swell Tests</td>
+                      <td class="p-2 text-center font-mono font-bold"><span class="doc-var" data-ref="testSwell" onclick="jumpToField('testSwell')">8</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- COMPENSATION -->
+            <section class="mb-6">
+              <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-[#7A1C1D] border-b border-slate-300 pb-1 mb-2">
+                Compensation
+              </h2>
+              <p class="text-justify text-xs font-serif">
+                GeoMET will provide the services outlined in this proposal for a lump sum fee of 
+                <strong class="text-sm font-sans text-[#7A1C1D]">
+                  <span class="doc-var font-bold font-mono" data-ref="feeTotal" onclick="jumpToField('feeTotal')">$19,900/-</span>
+                </strong>.
+              </p>
+              <p class="text-[12px] text-slate-600 mt-1 font-serif">
+                Our fee assumes that the site is accessible based upon assumptions detailed in this proposal.
+              </p>
+            </section>
+
+            <!-- SCHEDULE -->
+            <section class="mb-6">
+              <h2 class="text-xs font-bold font-sans tracking-wider uppercase text-[#7A1C1D] border-b border-slate-300 pb-1 mb-2">
+                Schedule
+              </h2>
+              <div class="overflow-x-auto my-3">
+                <table class="w-full text-left text-xs border border-slate-300 font-sans">
+                  <thead>
+                    <tr class="bg-slate-100 text-slate-700 border-b border-slate-300">
+                      <th class="p-2 border-r border-slate-300 font-semibold">Task / Activity</th>
+                      <th class="p-2 border-r border-slate-300 font-semibold">Estimated Duration</th>
+                      <th class="p-2 font-semibold">Comments</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200">
+                    <tr>
+                      <td class="p-2 border-r border-slate-300 font-medium">Drilling operations</td>
+                      <td class="p-2 border-r border-slate-300 font-mono"><span class="doc-var" data-ref="schedDrill" onclick="jumpToField('schedDrill')">~2 week</span></td>
+                      <td class="p-2 text-slate-600">Weather dependent</td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 border-r border-slate-300 font-medium">Laboratory testing</td>
+                      <td class="p-2 border-r border-slate-300 font-mono"><span class="doc-var" data-ref="schedLab" onclick="jumpToField('schedLab')">~1 week</span></td>
+                      <td class="p-2 text-slate-600">Begins after drilling</td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 border-r border-slate-300 font-medium">Engineering Analyses</td>
+                      <td class="p-2 border-r border-slate-300 font-mono"><span class="doc-var" data-ref="schedAnalysis" onclick="jumpToField('schedAnalysis')">~1 week</span></td>
+                      <td class="p-2 text-slate-600">After completion of lab tests</td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 border-r border-slate-300 font-medium">Verbal comments on findings</td>
+                      <td class="p-2 border-r border-slate-300 font-mono">Within 1 week after borings</td>
+                      <td class="p-2 text-slate-600">Upon request</td>
+                    </tr>
+                    <tr class="bg-slate-50 font-semibold">
+                      <td class="p-2 border-r border-slate-300 text-[#7A1C1D]">Total Duration</td>
+                      <td class="p-2 border-r border-slate-300 font-mono text-[#7A1C1D]"><span class="doc-var" data-ref="schedTotal" onclick="jumpToField('schedTotal')">~4-5 weeks</span></td>
+                      <td class="p-2 text-slate-700">After receiving Notice to proceed</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- SIGNATURE BLOCK -->
+            <div class="mb-8 pt-4 border-t border-slate-200 font-sans">
+              <p class="text-xs mb-3 font-serif">Respectfully submitted,</p>
+              <div class="mb-2 italic text-[#7A1C1D] font-serif text-lg tracking-wide">
+                <span class="doc-var font-serif italic text-base" data-ref="signatureName" onclick="jumpToField('signatureName')">Siddharth Neekhra</span>
+              </div>
+              <div class="text-xs font-bold text-slate-900">GeoMET Consultants, LLC</div>
+              <div class="text-xs text-slate-700">
+                <span class="doc-var" data-ref="engineerName" onclick="jumpToField('engineerName')">Siddharth Neekhra, P.E.</span>
+              </div>
+              <div class="text-xs text-slate-600">
+                <span class="doc-var" data-ref="engineerTitle" onclick="jumpToField('engineerTitle')">Principal Engineer</span>
               </div>
             </div>
+
+            <!-- PROPOSAL ACCEPTANCE PAGE (PAGE 3) -->
+            <div class="pt-6 border-t-2 border-slate-300 mt-8 font-sans">
+              <div class="bg-slate-100 p-2 text-center font-bold text-xs uppercase tracking-wide text-[#7A1C1D] mb-3 rounded">
+                Proposal Acceptance and Authorization
+              </div>
+              <p class="text-[11px] text-slate-600 mb-3 text-justify font-serif">
+                Please complete this page and return one signed copy of this proposal to GeoMET to confirm your acceptance and authorize commencement of work on the above-referenced project.
+              </p>
+
+              <table class="w-full text-xs border border-slate-300 mb-4">
+                <tbody>
+                  <tr class="border-b border-slate-200">
+                    <td class="p-2 bg-slate-50 font-semibold w-1/3 border-r border-slate-300">Proposal No.:</td>
+                    <td class="p-2 font-mono font-bold"><span class="doc-var" data-ref="proposalNo" onclick="jumpToField('proposalNo')">P26011165</span></td>
+                  </tr>
+                  <tr class="border-b border-slate-200">
+                    <td class="p-2 bg-slate-50 font-semibold border-r border-slate-300">Scope of Work:</td>
+                    <td class="p-2">Subsurface Exploration and Geotechnical Engineering Services</td>
+                  </tr>
+                  <tr class="border-b border-slate-200">
+                    <td class="p-2 bg-slate-50 font-semibold border-r border-slate-300">Project:</td>
+                    <td class="p-2 font-semibold"><span class="doc-var" data-ref="projectName" onclick="jumpToField('projectName')">Baxter Well Apartments – Phase I & Phase II</span></td>
+                  </tr>
+                  <tr class="border-b border-slate-200">
+                    <td class="p-2 bg-slate-50 font-semibold border-r border-slate-300">Location:</td>
+                    <td class="p-2"><span class="doc-var" data-ref="projectLocation" onclick="jumpToField('projectLocation')">S. of Baxter Well Road</span>, <span class="doc-var" data-ref="projectCityState" onclick="jumpToField('projectCityState')">McKinney, Texas</span></td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 bg-slate-50 font-semibold border-r border-slate-300">Base Services:</td>
+                    <td class="p-2 font-mono font-bold text-[#7A1C1D]"><span class="doc-var" data-ref="feeTotal" onclick="jumpToField('feeTotal')">$19,900/-</span></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="grid grid-cols-2 gap-4 text-xs pt-2">
+                <div class="border-b border-slate-400 pb-1 text-slate-500">Client Signature: _________________________</div>
+                <div class="border-b border-slate-400 pb-1 text-slate-500">Title: ____________________________</div>
+                <div class="border-b border-slate-400 pb-1 text-slate-500">Printed Name: ___________________________</div>
+                <div class="border-b border-slate-400 pb-1 text-slate-500">Date: ____________________________</div>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-200 text-xs">
+                <div class="font-bold text-slate-800 mb-1">Invoicing Details:</div>
+                <div class="text-[11px] text-slate-500 space-y-1">
+                  <div>Invoicing Address: __________________________________________________</div>
+                  <div>Email Address and Telephone No.: ___________________________________</div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </article>
@@ -968,21 +982,18 @@
 
   <!-- JAVASCRIPT STATE ENGINE & INTERACTION -->
   <script>
-    // Master data model reflecting the exact original document
+    // Default initial data populated from the proposal
     const defaultData = {
       proposalNo: "P26011165",
       proposalDate: "November 5, 2026",
       recipientName: "Ms. Caitland Rodgers",
       recipientSalutation: "Ms. Rodgers",
-      recipientCompany: "Multifamily Development Partners",
       recipientAddress: "3400 N. Central Expressway Suite #110-264",
       recipientCityStateZip: "Richardson, Texas 75080",
+      rfpDate: "November 4, 2026",
       projectName: "Baxter Well Apartments – Phase I & Phase II",
       projectLocation: "S. of Baxter Well Road",
       projectCityState: "McKinney, Texas",
-      rfpDate: "November 4, 2026",
-
-      // Specifications
       tableLocation: "South of Baxter Well Road, McKinney, Texas",
       tableImprovements: "The site appears undeveloped vacant parcel of land with minimal vegetation.",
       tableGroundCover: "Grass",
@@ -994,303 +1005,601 @@
       maxColumnLoad: "50 kips",
       gradingInfo: "Not Available (Assumed within 2 feet of existing)",
       accessDesc: "Readily accessible from Baxter Well Road which is located north of the property",
-
-      // Field Exploration
       boringLocationText: "Building Pad Club House, Pool & Amenity Area",
       boringNumbers: "BH-1 to BH-20",
       boringCount: "20",
       boringCountWords: "twenty (20)",
       boringDepth: "20",
-
-      // Lab Tests
       testMoisture: "42",
       testAtterberg: "20",
       testSieve: "20",
       testSwell: "8",
-
-      // Schedule & Cost
       feeTotal: "$19,900/-",
       schedDrill: "~2 week",
       schedLab: "~1 week",
       schedAnalysis: "~1 week",
       schedTotal: "~4-5 weeks",
-
-      // Signatures
       signatureName: "Siddharth Neekhra",
       engineerName: "Siddharth Neekhra, P.E.",
       engineerTitle: "Principal Engineer"
     };
 
-    // Active state cloned from defaults
+    // Live reactive state object
     let proposalData = { ...defaultData };
     let highlightsVisible = true;
     let autoScrollEnabled = true;
-    let editScrollDebounce = null;
 
-    // Initialize inputs and reactive bindings
+    // Initialize application logic
     function initApp() {
       populateInputs();
       renderDocument();
       bindInputListeners();
+
+      // Close export dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('save-menu');
+        const wrapper = document.getElementById('export-dropdown-wrapper');
+        if (wrapper && !wrapper.contains(e.target)) {
+          dropdown.classList.add('hidden');
+        }
+      });
     }
 
-    // Populate all input fields with current data
+    // Populate all input fields with state values
     function populateInputs() {
-      Object.keys(proposalData).forEach(key => {
-        const input = document.getElementById(`input-${key}`);
-        if (input) {
-          input.value = proposalData[key];
+      for (const [key, val] of Object.entries(proposalData)) {
+        const el = document.getElementById(`input-${key}`);
+        if (el) {
+          el.value = val;
         }
-      });
-      updateBadges();
+      }
+      updateSubheader();
     }
 
-    // Render document variables
+    // Update document spans with state values
     function renderDocument() {
-      const vars = document.querySelectorAll('.doc-var');
-      vars.forEach(el => {
-        const ref = el.getAttribute('data-ref');
-        if (ref && proposalData[ref] !== undefined) {
-          el.textContent = proposalData[ref];
-        }
-      });
-      updateBadges();
+      for (const [key, val] of Object.entries(proposalData)) {
+        const targets = document.querySelectorAll(`.doc-var[data-ref="${key}"]`);
+        targets.forEach(span => {
+          span.textContent = val;
+        });
+      }
+      updateSubheader();
     }
 
-    function updateBadges() {
-      const projBadge = document.getElementById('subhead-project-name');
-      const propBadge = document.getElementById('subhead-proposal-no');
-      const planBadge = document.getElementById('plan-acreage-badge');
-      const graphBoring = document.getElementById('graphic-boring-val');
-
-      if (projBadge) projBadge.textContent = proposalData.projectName;
-      if (propBadge) propBadge.textContent = proposalData.proposalNo;
-      if (planBadge) planBadge.textContent = `${proposalData.siteAcreage.toUpperCase()} TOTAL`;
-      if (graphBoring) graphBoring.textContent = `${proposalData.boringCount} Borings (${proposalData.boringDepth}ft)`;
+    // Update top status bar with active proposal ID & project name
+    function updateSubheader() {
+      const subheadProj = document.getElementById('subhead-project-name');
+      const subheadProp = document.getElementById('subhead-proposal-no');
+      if (subheadProj) subheadProj.textContent = proposalData.projectName;
+      if (subheadProp) subheadProp.textContent = proposalData.proposalNo;
     }
 
-    // Two-way data binding from form inputs to document
+    // Bind real-time input and focus listeners for instant updates & auto-scroll
     function bindInputListeners() {
-      const inputs = document.querySelectorAll('[data-target]');
+      const inputs = document.querySelectorAll('input[data-target], textarea[data-target]');
       inputs.forEach(input => {
         const key = input.getAttribute('data-target');
 
-        // On input: update content, sync document, and auto-scroll to document target
-        input.addEventListener('input', (e) => {
-          proposalData[key] = e.target.value;
+        // On typing / input change
+        input.addEventListener('input', function() {
+          proposalData[key] = input.value;
           renderDocument();
           if (autoScrollEnabled) {
-            triggerDocScrollToField(key, true);
+            triggerDocScrollToField(key);
           }
         });
 
-        // On focus: immediately scroll document to reveal the target variable
-        input.addEventListener('focus', () => {
+        // On input focus, scroll document to section and pulse highlight
+        input.addEventListener('focus', function() {
           if (autoScrollEnabled) {
-            triggerDocScrollToField(key, true);
+            triggerDocScrollToField(key);
           }
         });
 
-        // On blur: remove active editing indicator
-        input.addEventListener('blur', () => {
-          clearDocLiveIndicator(key);
+        // Remove active highlight beacon on blur
+        input.addEventListener('blur', function() {
+          clearActiveBeacons();
         });
       });
     }
 
-    // Smoothly scroll the document view to the section being edited
-    function triggerDocScrollToField(fieldName, keepActiveHighlight = false) {
-      const targetDocElement = document.querySelector(`.doc-var[data-ref="${fieldName}"]`);
-      if (!targetDocElement) return;
-
-      // Scroll document container smoothly to center the element
-      targetDocElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'nearest'
-      });
-
-      // Apply live beacon animation
-      highlightDocLive(fieldName, keepActiveHighlight);
-    }
-
-    // Apply live pulse animation to all occurrences of the edited field in doc
-    function highlightDocLive(fieldName, persistent = false) {
-      const items = document.querySelectorAll(`.doc-var[data-ref="${fieldName}"]`);
-      items.forEach(item => {
-        item.classList.add('live-editing');
-      });
-
-      if (!persistent) {
-        clearTimeout(editScrollDebounce);
-        editScrollDebounce = setTimeout(() => {
-          clearDocLiveIndicator(fieldName);
-        }, 1400);
+    // Scroll document viewer to the targeted variable and highlight it
+    function triggerDocScrollToField(key) {
+      clearActiveBeacons();
+      const docTargets = document.querySelectorAll(`.doc-var[data-ref="${key}"]`);
+      if (docTargets.length > 0) {
+        const target = docTargets[0];
+        target.classList.add('live-editing');
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
 
-    function clearDocLiveIndicator(fieldName) {
-      const items = document.querySelectorAll(`.doc-var[data-ref="${fieldName}"]`);
-      items.forEach(item => {
-        item.classList.remove('live-editing');
+    // Remove active highlight classes from document spans
+    function clearActiveBeacons() {
+      document.querySelectorAll('.doc-var.live-editing, .doc-var.active-target').forEach(el => {
+        el.classList.remove('live-editing');
+        el.classList.remove('active-target');
       });
     }
 
-    // Clicking highlighted item in document jumps and focuses corresponding editor input
-    function jumpToField(fieldName) {
-      const targetInput = document.getElementById(`input-${fieldName}`);
-      if (!targetInput) return;
+    // Jump from document span click to the right-hand input
+    function jumpToField(key) {
+      const input = document.getElementById(`input-${key}`);
+      if (input) {
+        const detailsParent = input.closest('details');
+        if (detailsParent && !detailsParent.open) {
+          detailsParent.open = true;
+        }
+        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        input.focus();
+        input.select();
 
-      // Expand parent <details> accordion if closed
-      const parentDetails = targetInput.closest('details');
-      if (parentDetails && !parentDetails.open) {
-        parentDetails.open = true;
+        // Visual target pulse on document
+        clearActiveBeacons();
+        const targets = document.querySelectorAll(`.doc-var[data-ref="${key}"]`);
+        targets.forEach(t => t.classList.add('active-target'));
+        setTimeout(clearActiveBeacons, 2500);
       }
-
-      targetInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      targetInput.focus();
-      targetInput.classList.add('ring-4', 'ring-amber-400');
-      setTimeout(() => {
-        targetInput.classList.remove('ring-4', 'ring-amber-400');
-      }, 1200);
-
-      // Flash corresponding items in document
-      highlightDocVar(fieldName);
     }
 
-    function highlightDocVar(fieldName) {
-      const items = document.querySelectorAll(`.doc-var[data-ref="${fieldName}"]`);
-      items.forEach(item => {
-        item.classList.add('active-target');
-        setTimeout(() => {
-          item.classList.remove('active-target');
-        }, 1500);
-      });
+    // Toggle document yellow highlights
+    function toggleHighlights() {
+      highlightsVisible = !highlightsVisible;
+      const body = document.body;
+      const text = document.getElementById('highlight-toggle-text');
+      const btn = document.getElementById('highlight-toggle-btn');
+
+      if (highlightsVisible) {
+        body.classList.remove('no-highlights');
+        text.textContent = 'Glow ON';
+        btn.classList.remove('bg-slate-600');
+        btn.classList.add('bg-amber-600');
+      } else {
+        body.classList.add('no-highlights');
+        text.textContent = 'Glow OFF';
+        btn.classList.remove('bg-amber-600');
+        btn.classList.add('bg-slate-600');
+      }
     }
 
-    // Toggle auto-scroll feature
+    // Toggle auto-scroll behavior
     function toggleAutoScroll() {
       autoScrollEnabled = !autoScrollEnabled;
-      const btn = document.getElementById('autoscroll-toggle-btn');
       const text = document.getElementById('autoscroll-toggle-text');
+      const btn = document.getElementById('autoscroll-toggle-btn');
 
       if (autoScrollEnabled) {
-        btn.classList.remove('bg-slate-700', 'border-slate-600');
-        btn.classList.add('bg-emerald-700', 'border-emerald-500');
         text.textContent = 'Auto-Scroll: ON';
+        btn.className = 'px-2.5 py-1.5 text-xs font-medium bg-emerald-700 hover:bg-emerald-600 text-white rounded flex items-center gap-1.5 transition border border-emerald-500';
       } else {
-        btn.classList.remove('bg-emerald-700', 'border-emerald-500');
-        btn.classList.add('bg-slate-700', 'border-slate-600');
         text.textContent = 'Auto-Scroll: OFF';
+        btn.className = 'px-2.5 py-1.5 text-xs font-medium bg-slate-600 hover:bg-slate-500 text-white rounded flex items-center gap-1.5 transition border border-slate-500';
       }
     }
 
-    // Reset to initial original defaults
+    // Toggle save menu popup
+    function toggleSaveMenu() {
+      const menu = document.getElementById('save-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Load sample preset data
+    function loadSamplePreset() {
+      proposalData.projectName = "Lakeside Commercial Center - Phase II";
+      proposalData.proposalNo = "P26019940";
+      proposalData.projectLocation = "E. of Eldorado Parkway";
+      proposalData.tableLocation = "East of Eldorado Parkway, McKinney, Texas";
+      proposalData.feeTotal = "$24,500/-";
+      proposalData.boringCount = "24";
+      proposalData.boringCountWords = "twenty-four (24)";
+      proposalData.boringNumbers = "BH-1 to BH-24";
+      proposalData.siteAcreage = "21.8 acres";
+      populateInputs();
+      renderDocument();
+    }
+
+    // Reset back to initial default data
     function resetToDefaults() {
       proposalData = { ...defaultData };
       populateInputs();
       renderDocument();
     }
 
-    // Load an alternate sample preset
-    function loadSamplePreset() {
-      proposalData = {
-        ...defaultData,
-        proposalNo: "P26011189",
-        proposalDate: "November 18, 2026",
-        projectName: "Preston Ridge Estates – Phase III",
-        projectLocation: "N. of Collin Boulevard",
-        projectCityState: "Frisco, Texas",
-        recipientName: "Mr. David Harrison",
-        recipientSalutation: "Mr. Harrison",
-        tableLocation: "North of Collin Boulevard, Frisco, Texas",
-        siteAcreage: "24.5 acres",
-        boringCount: "28",
-        boringCountWords: "twenty-eight (28)",
-        boringNumbers: "BH-1 to BH-28",
-        boringDepth: "25",
-        testMoisture: "56",
-        testAtterberg: "28",
-        testSieve: "28",
-        testSwell: "12",
-        feeTotal: "$26,400/-",
-        schedTotal: "~5-6 weeks"
-      };
-      populateInputs();
-      renderDocument();
-    }
-
-    // Toggle document highlighting
-    function toggleHighlights() {
-      highlightsVisible = !highlightsVisible;
-      const body = document.body;
-      const toggleText = document.getElementById('highlight-toggle-text');
-      const toggleBtn = document.getElementById('highlight-toggle-btn');
-
-      if (highlightsVisible) {
-        body.classList.remove('no-highlights');
-        toggleText.textContent = "Glow ON";
-        toggleBtn.classList.remove('bg-slate-700');
-        toggleBtn.classList.add('bg-amber-600');
-      } else {
-        body.classList.add('no-highlights');
-        toggleText.textContent = "Glow OFF";
-        toggleBtn.classList.remove('bg-amber-600');
-        toggleBtn.classList.add('bg-slate-700');
-      }
-    }
-
-    // Save menu toggle
-    function toggleSaveMenu() {
-      const menu = document.getElementById('save-menu');
-      menu.classList.toggle('hidden');
-    }
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      const wrapper = document.getElementById('export-dropdown-wrapper');
-      const menu = document.getElementById('save-menu');
-      if (wrapper && !wrapper.contains(e.target) && menu) {
-        menu.classList.add('hidden');
-      }
-    });
-
-    // EXPORT 1: Save as Word (.doc)
+    // EXPORT 1: Save as authentic Word document with exact cover page & styles
     function saveAsWord(e) {
       if (e) e.preventDefault();
       document.getElementById('save-menu').classList.add('hidden');
 
-      // Clone clean document without highlight classes
-      const printArea = document.getElementById('print-area').cloneNode(true);
-      const highlighted = printArea.querySelectorAll('.doc-var');
-      highlighted.forEach(el => {
-        el.style.backgroundColor = 'transparent';
-        el.style.borderBottom = 'none';
-        el.style.padding = '0';
-      });
+      // Embedded Word-compliant GeoMET Logo in Vector SVG
+      const logoSvg = `
+        <svg width="280" height="76" viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
+          <text x="10" y="44" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="#7A1C1D">Ge</text>
+          <circle cx="95" cy="32" r="17" fill="#1D4ED8" />
+          <path d="M86 24 Q95 20 98 28 Q103 36 94 42 Q86 38 86 24 Z" fill="#22C55E" />
+          <path d="M98 22 Q108 26 106 34 Q102 38 98 22 Z" fill="#22C55E" />
+          <text x="114" y="44" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="#7A1C1D">MET</text>
+          <polygon points="190,16 198,16 194,22" fill="#7A1C1D" />
+          <rect x="180" y="24" width="34" height="6" fill="#7A1C1D" rx="1" />
+          <line x1="194" y1="30" x2="194" y2="54" stroke="#7A1C1D" stroke-width="3" />
+          <path d="M190 34 L198 38 M190 41 L198 45 M190 48 L198 52" stroke="#7A1C1D" stroke-width="2" stroke-linecap="round" />
+          <line x1="202" y1="32" x2="210" y2="32" stroke="#7A1C1D" stroke-width="1.5" />
+          <line x1="204" y1="35" x2="208" y2="35" stroke="#7A1C1D" stroke-width="1.5" />
+        </svg>
+      `;
 
-      const headerHtml = `
+      // Build complete, Word-compliant document layout with Cover Page and subsequent sections
+      const wordDocumentHtml = `
         <html xmlns:o='urn:schemas-microsoft-com:office:office' 
               xmlns:w='urn:schemas-microsoft-com:office:word' 
               xmlns='http://www.w3.org/TR/REC-html40'>
         <head>
           <meta charset='utf-8'>
           <title>${proposalData.proposalNo} - ${proposalData.projectName}</title>
+          <!--[if gte mso 9]>
+          <xml>
+            <w:WordDocument>
+              <w:View>Print</w:View>
+              <w:Zoom>100</w:Zoom>
+              <w:DoNotOptimizeForBrowser/>
+            </w:WordDocument>
+          </xml>
+          <![endif]-->
           <style>
-            body { font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.4; color: #222; }
-            h1 { font-family: Arial, sans-serif; color: #7A1C1D; font-size: 18pt; margin: 0; }
-            h2 { font-family: Arial, sans-serif; color: #7A1C1D; font-size: 12pt; border-bottom: 1.5pt solid #7A1C1D; padding-bottom: 2pt; margin-top: 14pt; }
-            table { width: 100%; border-collapse: collapse; margin: 8pt 0; font-family: Arial, sans-serif; font-size: 9.5pt; }
-            th, td { border: 1pt solid #bbb; padding: 5pt; }
-            th { background-color: #f2f2f2; }
+            @page WordSection1 {
+              size: 8.5in 11.0in;
+              margin: 1.0in 1.0in 1.0in 1.0in;
+              mso-header-margin: 0.5in;
+              mso-footer-margin: 0.5in;
+              mso-paper-source: 0;
+            }
+            div.WordSection1 {
+              page: WordSection1;
+            }
+            body {
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 11pt;
+              line-height: 1.35;
+              color: #111111;
+            }
+            .cover-title {
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 24pt;
+              font-weight: bold;
+              color: #7A1C1D;
+              text-align: center;
+              margin-top: 15pt;
+              margin-bottom: 12pt;
+              text-transform: uppercase;
+            }
+            .cover-subtitle {
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 15pt;
+              font-weight: bold;
+              color: #222222;
+              text-align: center;
+              line-height: 1.3;
+              margin-bottom: 30pt;
+            }
+            .cover-project {
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 14pt;
+              font-weight: bold;
+              color: #111111;
+              text-align: center;
+              margin-top: 25pt;
+              margin-bottom: 25pt;
+              line-height: 1.4;
+            }
+            .cover-meta {
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 13pt;
+              font-weight: bold;
+              color: #111111;
+              text-align: center;
+              margin-top: 20pt;
+              margin-bottom: 35pt;
+              line-height: 1.5;
+            }
+            .cover-logo {
+              text-align: center;
+              margin-top: 20pt;
+              margin-bottom: 20pt;
+            }
+            .page-break {
+              page-break-after: always;
+              mso-break-type: section-break;
+            }
+            h2 {
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 12pt;
+              font-weight: bold;
+              color: #7A1C1D;
+              border-bottom: 1.5pt solid #7A1C1D;
+              padding-bottom: 2pt;
+              margin-top: 14pt;
+              margin-bottom: 6pt;
+              text-transform: uppercase;
+            }
+            table.geomet-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 10pt 0;
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 10pt;
+            }
+            table.geomet-table th, table.geomet-table td {
+              border: 1pt solid #b0b0b0;
+              padding: 5pt 7pt;
+              vertical-align: top;
+            }
+            table.geomet-table th {
+              background-color: #f2f2f2;
+              font-weight: bold;
+              color: #333333;
+            }
+            .label-cell {
+              background-color: #fafafa;
+              font-weight: bold;
+              width: 25%;
+              color: #333333;
+            }
+            p {
+              margin-top: 5pt;
+              margin-bottom: 7pt;
+              text-align: justify;
+            }
           </style>
         </head>
         <body>
-      `;
-      const footerHtml = `</body></html>`;
-      const fullDoc = headerHtml + printArea.innerHTML + footerHtml;
+          <div class="WordSection1">
+            
+            <!-- PAGE 1: EXACT REPLICA COVER PAGE -->
+            <div class="cover-title">GeoMET CONSULTANTS, LLC</div>
+            <div class="cover-subtitle">
+              Proposal for Subsurface Exploration and<br/>
+              Geotechnical Engineering Services
+            </div>
+            
+            <div class="cover-project">
+              ${proposalData.projectName}<br/>
+              ${proposalData.projectLocation}<br/>
+              ${proposalData.projectCityState}
+            </div>
 
-      const blob = new Blob(['\ufeff' + fullDoc], { type: 'application/msword' });
+            <div class="cover-meta">
+              GeoMET Proposal No.: ${proposalData.proposalNo}<br/>
+              ${proposalData.proposalDate}
+            </div>
+
+            <div class="cover-logo">
+              ${logoSvg}
+            </div>
+
+            <!-- PAGE BREAK -->
+            <div class="page-break"></div>
+
+            <!-- PAGE 2: PROPOSAL LETTER -->
+            <div style="text-align: right; margin-bottom: 15pt; font-size: 10pt; color: #444;">
+              ${proposalData.proposalDate}
+            </div>
+
+            <p style="margin-bottom: 2pt; font-weight: bold;">${proposalData.recipientName}</p>
+            <p style="margin: 0; color: #444;">${proposalData.recipientAddress}</p>
+            <p style="margin: 0 0 12pt 0; color: #444;">${proposalData.recipientCityStateZip}</p>
+
+            <p style="margin-bottom: 2pt;"><strong>Reference:</strong> Proposal for Subsurface Exploration and Geotechnical Engineering Services</p>
+            <p style="margin: 0; font-weight: bold; color: #7A1C1D; font-size: 12pt;">${proposalData.projectName}</p>
+            <p style="margin: 0; color: #333;">${proposalData.projectLocation}, ${proposalData.projectCityState}</p>
+            <p style="margin: 0 0 12pt 0; color: #333;">GeoMET Proposal No.: <strong>${proposalData.proposalNo}</strong></p>
+
+            <p>Dear ${proposalData.recipientSalutation},</p>
+            <p>
+              As requested, GeoMET Consultants LLC (GeoMET) is pleased to provide the following lump sum cost estimate proposal for subsurface exploration and geotechnical engineering services for the above referenced project. Our understanding of the project is based on our review of conceptual site plans received along with your request for proposal (RFP) as per the email conversation dated ${proposalData.rfpDate}. This proposal outlines our understanding of the project, the proposed scope of services, activity schedule, fees, and authorization requirements.
+            </p>
+
+            <h2>PROJECT INFORMATION</h2>
+            <p>
+              In preparing this proposal, we have reviewed the RFP documents. We have also reviewed the available geologic and geotechnical information in our files in the vicinity of the site.
+            </p>
+
+            <table class="geomet-table">
+              <tr>
+                <td class="label-cell">Location</td>
+                <td>${proposalData.tableLocation}</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Existing Improvements</td>
+                <td>${proposalData.tableImprovements}</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Current Ground Cover</td>
+                <td>${proposalData.tableGroundCover}</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Existing Topography</td>
+                <td>The site gradually slopes from north to south having a maximum elevation of approximately ${proposalData.maxElevation} and having a minimum elevation of approximately ${proposalData.minElevation}, respectively.</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Proposed Construction</td>
+                <td>Planned development consists of ${proposalData.proposedConstruction} in an area of approximately ${proposalData.siteAcreage}.</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Maximum Load (assumed)</td>
+                <td>Maximum wall loads of ${proposalData.maxWallLoad} for proposed building structures. Maximum column loads of approximately ${proposalData.maxColumnLoad} for the proposed building structures.</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Grading Information</td>
+                <td>${proposalData.gradingInfo}</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Access</td>
+                <td>${proposalData.accessDesc}</td>
+              </tr>
+            </table>
+
+            <h2>PROPOSED SCOPE OF WORK</h2>
+            <p>
+              Our integrated services will include drilling borings by drilling crews based on instructions provided by GeoMET. Our services will also include laboratory testing of representative soil samples, and engineering analyses presented in a site-specific engineering report.
+            </p>
+
+            <p><strong>Utility Clearance:</strong></p>
+            <ul>
+              <li>State 811 will be notified to mark public utilities, but markings typically stop at distribution points and do not cover private property.</li>
+              <li>We will coordinate work around utilities marked by 811 and those identified by the owner/client.</li>
+              <li>We cannot be held responsible for damage to utilities that are unmarked or not disclosed.</li>
+            </ul>
+
+            <h2>FIELD EXPLORATION</h2>
+            <p>
+              Perform soil test borings (ASTM 1586/1587 Standard and/or Continuous Sampling) at the building pad area, club house, pool area and pavement. A total of <strong>${proposalData.boringCountWords}</strong> borings are planned for the project.
+            </p>
+
+            <table class="geomet-table">
+              <tr>
+                <th>Locations</th>
+                <th>Boring Nos.</th>
+                <th style="text-align: center;">No. of Borings</th>
+                <th style="text-align: center;">Depth of Borings, ft</th>
+              </tr>
+              <tr>
+                <td>${proposalData.boringLocationText}</td>
+                <td style="font-family: monospace;">${proposalData.boringNumbers}</td>
+                <td style="text-align: center; font-weight: bold;">${proposalData.boringCount}</td>
+                <td style="text-align: center; font-weight: bold;">${proposalData.boringDepth}</td>
+              </tr>
+            </table>
+
+            <h2>LABORATORY TESTING</h2>
+            <p>
+              Upon completion of field exploration operations, the samples will be returned to our laboratory for further identification, visual classification, and testing. Laboratory testing may include:
+            </p>
+
+            <table class="geomet-table" style="max-width: 480pt;">
+              <tr>
+                <th>Laboratory Test</th>
+                <th style="text-align: center; width: 100pt;">Quantity</th>
+              </tr>
+              <tr>
+                <td>Natural Moisture Content</td>
+                <td style="text-align: center; font-weight: bold;">${proposalData.testMoisture}</td>
+              </tr>
+              <tr>
+                <td>Atterberg Limits</td>
+                <td style="text-align: center; font-weight: bold;">${proposalData.testAtterberg}</td>
+              </tr>
+              <tr>
+                <td>Sieve Analyses</td>
+                <td style="text-align: center; font-weight: bold;">${proposalData.testSieve}</td>
+              </tr>
+              <tr>
+                <td>Swell Tests</td>
+                <td style="text-align: center; font-weight: bold;">${proposalData.testSwell}</td>
+              </tr>
+            </table>
+
+            <h2>COMPENSATION</h2>
+            <p>
+              GeoMET will provide the services outlined in this proposal for a lump sum fee of <strong style="color: #7A1C1D; font-size: 12pt;">${proposalData.feeTotal}</strong>.
+            </p>
+            <p style="font-size: 10pt; color: #555;">
+              Our fee assumes that the site is accessible based upon our assumptions detailed in this proposal. If additional services are requested or required based on differing site conditions, we will contact you for verbal and written authorization to proceed.
+            </p>
+
+            <h2>SCHEDULE</h2>
+            <table class="geomet-table">
+              <tr>
+                <th>Task / Activity</th>
+                <th>Estimated Duration</th>
+                <th>Comments</th>
+              </tr>
+              <tr>
+                <td>Drilling operations</td>
+                <td>${proposalData.schedDrill}</td>
+                <td>Weather dependent</td>
+              </tr>
+              <tr>
+                <td>Laboratory testing</td>
+                <td>${proposalData.schedLab}</td>
+                <td>Begins after drilling</td>
+              </tr>
+              <tr>
+                <td>Engineering Analyses</td>
+                <td>${proposalData.schedAnalysis}</td>
+                <td>After completion of lab tests</td>
+              </tr>
+              <tr style="background-color: #f7f7f7; font-weight: bold;">
+                <td style="color: #7A1C1D;">Total Duration</td>
+                <td style="color: #7A1C1D;">${proposalData.schedTotal}</td>
+                <td>After receiving Notice to proceed</td>
+              </tr>
+            </table>
+
+            <div style="margin-top: 25pt;">
+              <p>Respectfully submitted,</p>
+              <p style="font-style: italic; font-size: 16pt; color: #7A1C1D; margin: 10pt 0;">${proposalData.signatureName}</p>
+              <p style="font-weight: bold; margin: 0;">GeoMET Consultants, LLC</p>
+              <p style="margin: 0;">${proposalData.engineerName}</p>
+              <p style="margin: 0; color: #555;">${proposalData.engineerTitle}</p>
+            </div>
+
+            <!-- PAGE BREAK TO ACCEPTANCE -->
+            <div class="page-break"></div>
+
+            <!-- PAGE 3: ACCEPTANCE AND AUTHORIZATION -->
+            <h2>PROPOSAL ACCEPTANCE AND AUTHORIZATION</h2>
+            <p style="font-size: 10pt; color: #444;">
+              Please complete this page and return one signed copy of this proposal to GeoMET to confirm your acceptance and authorize commencement of work on the above-referenced project.
+            </p>
+
+            <table class="geomet-table">
+              <tr>
+                <td class="label-cell">Proposal No.:</td>
+                <td style="font-weight: bold;">${proposalData.proposalNo}</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Scope of Work:</td>
+                <td>Subsurface Exploration and Geotechnical Engineering Services</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Project:</td>
+                <td style="font-weight: bold;">${proposalData.projectName}</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Location:</td>
+                <td>${proposalData.projectLocation}, ${proposalData.projectCityState}</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Base Services:</td>
+                <td style="font-weight: bold; color: #7A1C1D;">${proposalData.feeTotal}</td>
+              </tr>
+            </table>
+
+            <table style="width: 100%; margin-top: 25pt; font-size: 10pt;">
+              <tr>
+                <td style="padding: 10pt 0; border-bottom: 1pt solid #888; width: 48%;">Client Signature: </td>
+                <td style="width: 4%;"></td>
+                <td style="padding: 10pt 0; border-bottom: 1pt solid #888; width: 48%;">Title: </td>
+              </tr>
+              <tr>
+                <td style="padding: 15pt 0; border-bottom: 1pt solid #888;">Printed Name: </td>
+                <td></td>
+                <td style="padding: 15pt 0; border-bottom: 1pt solid #888;">Date: </td>
+              </tr>
+            </table>
+
+            <div style="margin-top: 25pt; font-size: 10pt;">
+              <p><strong>INVOICING DETAILS</strong></p>
+              <p>Invoicing Address: ____________________________________________________________________</p>
+              <p>Email Address and Telephone No.: _____________________________________________________</p>
+            </div>
+
+          </div>
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob(['\ufeff' + wordDocumentHtml], { type: 'application/msword' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
